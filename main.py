@@ -1,7 +1,14 @@
 from tokens import cmc_token
 
-import requests
 import json
+import requests
+
+
+from flask import Flask
+
+token = '1700264465:AAEn4sbm6oBUbZNZqCT0LnQYhOfmKv1G4QM'
+
+app = Flask(__name__)
 
 
 def write_json(data, filename='response.json'):
@@ -17,13 +24,23 @@ def get_cmc_data(crypto):
     headers = {'X-CMC_PRO_API_KEY': cmc_token}
 
     r = requests.get(url, headers=headers, params=params).json()
-    #write_json(r)
+    write_json(r)
     price = r['data'][crypto]['quote']['USD']['price']
     return price
+
+@app.route('/')
+def index():
+    return '<h1>Test</h1>'
+
+
 
 def main():
     print(get_cmc_data('BTC'))
 
+    # https://api.telegram.org/bot1700264465:AAEn4sbm6oBUbZNZqCT0LnQYhOfmKv1G4QM/getMe
+    # https://api.telegram.org/bot1700264465:AAEn4sbm6oBUbZNZqCT0LnQYhOfmKv1G4QM/sendMessage?chat_id=1789037547&text=Hello user
+
 
 if __name__ == '__main__':
-    main()
+    #main()
+    app.run(debug=True)
