@@ -10,13 +10,15 @@ def write_json(data, filename='response.json'):
 
 
 def get_cmc_data(crypto):
-    url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
-    params = {'start': '1', 'limit': '5000', 'convert': 'USD'}
+    #url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
+    #params = {'start': '1', 'limit': '5000', 'convert': 'USD'}
+    url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
+    params = {'symbol': crypto, 'convert': 'USD'}
     headers = {'X-CMC_PRO_API_KEY': cmc_token}
 
     r = requests.get(url, headers=headers, params=params).json()
     #write_json(r)
-    price = r['data'][0]['quote']['USD']['price']
+    price = r['data'][crypto]['quote']['USD']['price']
     return price
 
 def main():
